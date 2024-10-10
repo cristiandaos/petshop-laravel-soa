@@ -30,6 +30,8 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
+    protected static ?int $navigationSort = 3;
+
         // Cambiar nombre singular y plural
         protected static ?string $modelLabel = 'Categoría';
         protected static ?string $pluralModelLabel = 'Categorías';
