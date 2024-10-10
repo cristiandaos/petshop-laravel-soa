@@ -13,15 +13,11 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->decimal('grand_total', 10, 2)->nullable();
-            $table->string('payment_method')->nullable();
-            $table->string('payment_status')->nullable();
-            $table->enum('status', ['new', 'processing', 'shipped', 'delivered', 'canceled'])->default('new');
-            $table->string('currency')->nullable();
-            $table->decimal('shipping_amount', 10, 2)->nullable();
-            $table->string('shipping_method')->nullable();
-            $table->text('notes')->nullable();
+            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->integer('quantity')->default(1);
+            $table->decimal('unit_amount', 10, 2)->nullable();
+            $table->decimal('total_amount', 10, 2)->nullable();
             $table->timestamps();
         });
     }
@@ -34,3 +30,4 @@ return new class extends Migration
         Schema::dropIfExists('order_items');
     }
 };
+

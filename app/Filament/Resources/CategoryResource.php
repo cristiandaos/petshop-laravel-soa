@@ -30,6 +30,12 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
+    protected static ?int $navigationSort = 3;
+
+        // Cambiar nombre singular y plural
+        protected static ?string $modelLabel = 'Categoría';
+        protected static ?string $pluralModelLabel = 'Categorías';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -42,7 +48,7 @@ class CategoryResource extends Resource
                                 ->required()
                                 ->maxLength(255)
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(fn (String $operation, $state, Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                                ->afterStateUpdated(fn(String $operation, $state, Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
 
                             TextInput::make('slug')
                                 ->label('Slug')
@@ -52,14 +58,14 @@ class CategoryResource extends Resource
                                 ->unique(Category::class, 'slug', ignoreRecord: true),
                         ]),
 
-                        FileUpload::make('image')
-                            ->label('Imagen')
-                            ->image()
-                            ->directory('brands'),
-                        
-                        Toggle::make('is_active')
-                            ->required()
-                            ->default(true),
+                    FileUpload::make('image')
+                        ->label('Imagen')
+                        ->image()
+                        ->directory('brands'),
+
+                    Toggle::make('is_active')
+                        ->required()
+                        ->default(true),
                 ])
             ]);
     }
@@ -72,17 +78,17 @@ class CategoryResource extends Resource
                     ->searchable(),
 
                 Tables\Columns\ImageColumn::make('image'),
-                
+
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
-                
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

@@ -13,17 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-            $table->foreignId('brand_id')->constrained('brands')->cascadeOnDelete();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->json('images')->nullable();
-            $table->longText('description')->nullable();
-            $table->decimal('price', 10, 2);
-            $table->boolean('is_active')->default(true);
-            $table->boolean('is_featured')->default(false);
-            $table->boolean('in_stock')->default(true);
-            $table->boolean('on_sale')->default(false);
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->decimal('grand_total', 10, 2)->nullable();
+            $table->string('payment_method')->nullable();
+            $table->string('payment_status')->nullable();
+            $table->enum('status', ['new', 'processing', 'shipped', 'delivered', 'canceled'])->default('new');
+            $table->string('currency')->nullable();
+            $table->decimal('shipping_amount', 10, 2)->nullable();
+            $table->string('shipping_method')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
